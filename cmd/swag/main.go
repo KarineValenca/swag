@@ -40,6 +40,7 @@ const (
 	packageName              = "packageName"
 	collectionFormatFlag     = "collectionFormat"
 	packagePrefixFlag        = "packagePrefix"
+	strictFlag               = "strict"
 )
 
 var initFlags = []cli.Flag{
@@ -242,6 +243,7 @@ func initAction(ctx *cli.Context) error {
 		Debugger:            logger,
 		CollectionFormat:    collectionFormat,
 		PackagePrefix:       ctx.String(packagePrefixFlag),
+		Strict:              ctx.Bool(strictFlag),
 	})
 }
 
