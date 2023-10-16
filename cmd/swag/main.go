@@ -174,6 +174,11 @@ var initFlags = []cli.Flag{
 		Value: "",
 		Usage: "Parse only packages whose import path match the given prefix, comma separated",
 	},
+	&cli.BoolFlag{
+		Name:  strictFlag,
+		Value: false,
+		Usage: "Validate spec before generation",
+	},
 }
 
 func initAction(ctx *cli.Context) error {
