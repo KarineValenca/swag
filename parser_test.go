@@ -2142,9 +2142,9 @@ func TestParseTypeOverrides(t *testing.T) {
 
 	searchDir := "testdata/global_override"
 	p := New(SetOverrides(map[string]string{
-		"github.com/swaggo/swag/testdata/global_override/types.Application":  "string",
-		"github.com/swaggo/swag/testdata/global_override/types.Application2": "github.com/swaggo/swag/testdata/global_override/othertypes.Application",
-		"github.com/swaggo/swag/testdata/global_override/types.ShouldSkip":   "",
+		"github.com/KarineValenca/swag/testdata/global_override/types.Application":  "string",
+		"github.com/KarineValenca/swag/testdata/global_override/types.Application2": "github.com/KarineValenca/swag/testdata/global_override/othertypes.Application",
+		"github.com/KarineValenca/swag/testdata/global_override/types.ShouldSkip":   "",
 	}))
 	err := p.ParseAPI(searchDir, mainAPIFile, defaultParseDepth)
 	assert.NoError(t, err)
@@ -4054,19 +4054,19 @@ func TestParser_skipPackageByPrefix(t *testing.T) {
 
 	parser := New()
 
-	assert.False(t, parser.skipPackageByPrefix("github.com/swaggo/swag"))
-	assert.False(t, parser.skipPackageByPrefix("github.com/swaggo/swag/cmd"))
-	assert.False(t, parser.skipPackageByPrefix("github.com/swaggo/swag/gen"))
+	assert.False(t, parser.skipPackageByPrefix("github.com/KarineValenca/swag"))
+	assert.False(t, parser.skipPackageByPrefix("github.com/KarineValenca/swag/cmd"))
+	assert.False(t, parser.skipPackageByPrefix("github.com/KarineValenca/swag/gen"))
 
-	parser = New(SetPackagePrefix("github.com/swaggo/swag/cmd"))
+	parser = New(SetPackagePrefix("github.com/KarineValenca/swag/cmd"))
 
-	assert.True(t, parser.skipPackageByPrefix("github.com/swaggo/swag"))
-	assert.False(t, parser.skipPackageByPrefix("github.com/swaggo/swag/cmd"))
-	assert.True(t, parser.skipPackageByPrefix("github.com/swaggo/swag/gen"))
+	assert.True(t, parser.skipPackageByPrefix("github.com/KarineValenca/swag"))
+	assert.False(t, parser.skipPackageByPrefix("github.com/KarineValenca/swag/cmd"))
+	assert.True(t, parser.skipPackageByPrefix("github.com/KarineValenca/swag/gen"))
 
-	parser = New(SetPackagePrefix("github.com/swaggo/swag/cmd,github.com/swaggo/swag/gen"))
+	parser = New(SetPackagePrefix("github.com/KarineValenca/swag/cmd,github.com/KarineValenca/swag/gen"))
 
-	assert.True(t, parser.skipPackageByPrefix("github.com/swaggo/swag"))
-	assert.False(t, parser.skipPackageByPrefix("github.com/swaggo/swag/cmd"))
-	assert.False(t, parser.skipPackageByPrefix("github.com/swaggo/swag/gen"))
+	assert.True(t, parser.skipPackageByPrefix("github.com/KarineValenca/swag"))
+	assert.False(t, parser.skipPackageByPrefix("github.com/KarineValenca/swag/cmd"))
+	assert.False(t, parser.skipPackageByPrefix("github.com/KarineValenca/swag/gen"))
 }
