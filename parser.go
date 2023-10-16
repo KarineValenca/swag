@@ -1732,31 +1732,22 @@ func (parser *Parser) checkOperationIDUniqueness() error {
 	operationsIds := make(map[string]string)
 
 	for path, item := range parser.swagger.Paths.Paths {
-		var method, id string
-
-		for method = range allMethod {
+		for method := range allMethod {
 			op := refRouteMethodOp(&item, method)
 			if *op != nil {
-				id = (**op).ID
-
-				break
+				id := (**op).ID
+				if id != "" {
+					// Check for global uniqueness
+					previous, ok := operationsIds[id]
+					if ok {
+						return fmt.Errorf(
+							"duplicated @id annotation '%s' found in '%s', previously declared in: '%s'",
+							id, fmt.Sprintf("%s %s", method, path), previous)
+					}
+					operationsIds[id] = fmt.Sprintf("%s %s", method, path)
+				}
 			}
 		}
-
-		if id == "" {
-			continue
-		}
-
-		current := fmt.Sprintf("%s %s", method, path)
-
-		previous, ok := operationsIds[id]
-		if ok {
-			return fmt.Errorf(
-				"duplicated @id annotation '%s' found in '%s', previously declared in: '%s'",
-				id, current, previous)
-		}
-
-		operationsIds[id] = current
 	}
 
 	return nil

@@ -4070,3 +4070,27 @@ func TestParser_skipPackageByPrefix(t *testing.T) {
 	assert.False(t, parser.skipPackageByPrefix("github.com/KarineValenca/swag/cmd"))
 	assert.False(t, parser.skipPackageByPrefix("github.com/KarineValenca/swag/gen"))
 }
+
+func TestParser_checkOperationIDUniqueness(t *testing.T) {
+	t.Parallel()
+
+	parser := New()
+
+	parser.swagger.Paths.Paths = make(map[string]spec.PathItem)
+	parser.swagger.Paths.Paths["/test1"] = spec.PathItem{
+		PathItemProps: spec.PathItemProps{
+			Put: &spec.Operation{OperationProps: spec.OperationProps{ID: "PutOperation"}},
+			Get: &spec.Operation{OperationProps: spec.OperationProps{ID: "GetOperation"}},
+		},
+	}
+
+	parser.swagger.Paths.Paths["/test2"] = spec.PathItem{
+		PathItemProps: spec.PathItemProps{
+			Put: &spec.Operation{OperationProps: spec.OperationProps{ID: "PutOperation"}},
+		},
+	}
+
+	err := parser.checkOperationIDUniqueness()
+
+	assert.Error(t, err)
+}
